@@ -1,7 +1,13 @@
-import pandas as pd
-import numpy as np
+# task3_house_price_api.py
 
-# Create a sample dataset
+# === Step 1: Create dataset ===
+import pandas as pd
+import joblib
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from flask import Flask, request, jsonify
+
+# Create sample data
 data = {
     'area': [1000, 1500, 1200, 1800, 900, 1300],
     'bedrooms': [3, 4, 3, 4, 2, 3],
@@ -9,48 +15,31 @@ data = {
     'price': [200000, 350000, 250000, 400000, 180000, 300000]
 }
 df = pd.DataFrame(data)
+df.to_csv('house_data.csv', index=False)
 
-# Save to CSV
-df.to_csv('house_data.csv', index=False) # index=False prevents pandas from adding its own index column
-
-print("CSV file 'house_data.csv' created successfully!
-
-df = pd.read_csv('house_data.csv')
-
-# Features and label
+# === Step 2: Train model ===
 X = df[['area', 'bedrooms', 'age']]
 y = df['price']
-from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import train_test_split
-import joblib
-
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 model = LinearRegression()
 model.fit(X_train, y_train)
-
-# Save the model
 joblib.dump(model, 'model.pkl')
-['model.pkl']
-from flask import Flask, request, jsonify
-import joblib
-import numpy as np
 
+# === Step 3: Flask API ===
 app = Flask(__name__)
-
-# Load the trained model
 model = joblib.load('model.pkl')
 
 @app.route('/')
 def home():
-    return "Welcome to House Price Predictor API!"
+    return "Welcome to the House Price Predictor API!"
 
 @app.route('/predict', methods=['POST'])
 def predict():
     data = request.get_json()
-    area = data['area']
-    bedrooms = data['bedrooms']
-    age = data['age']
+    area = data.get('area')
+    bedrooms = data.get('bedrooms')
+    age = data.get('age')
     
     prediction = model.predict([[area, bedrooms, age]])
     return jsonify({'predicted_price': prediction[0]})
