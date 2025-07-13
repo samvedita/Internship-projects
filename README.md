@@ -3,26 +3,6 @@
 This repository contains solutions to all four tasks assigned as part of the **CodTech Data Science Internship**.
 
 Each task demonstrates a different aspect of data science including data preprocessing, deep learning, deployment, and optimization.
-## 📁 Project Structure
-
-CodTech-DS-Internship/
-├── Task1_ETL_Pipeline/
-│   ├── etl_pipeline.py
-│   └── titanic.csv
-│
-├── Task2_Image_Classification/
-│   └── mnist_cnn_classifier.ipynb
-│
-├── Task3_HousePriceAPI/
-│   ├── code.py
-│   └── house_data.csv
-│
-├── Task4_Optimization/
-│   └── optimization_lp.py
-└── README.md
-
-
----
 
 ## ✅ Task 1: Data Preprocessing Pipeline (ETL)
 
